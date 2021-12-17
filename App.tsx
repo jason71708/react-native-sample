@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,46 +17,21 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
+  Alert,
+  TouchableHighlight,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+  TouchableWithoutFeedback,
+  TextInput,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [text, setText] = useState('');
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -66,49 +41,120 @@ const App = () => {
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <ScrollView
+        pagingEnabled
+        horizontal
+        scrollsToTop
         contentInsetAdjustmentBehavior="automatic"
+        minimumZoomScale={0.5}
+        maximumZoomScale={2}
+        showsHorizontalScrollIndicator={false}
+        scrollEventThrottle={200}
+        decelerationRate="fast"
         style={backgroundStyle}>
-        <Header />
+        <View style={{padding: 10}}>
+          <TextInput
+            style={{height: 40}}
+            placeholder="Type here to translate!"
+            onChangeText={text => setText(text)}
+            defaultValue={text}
+          />
+          <Text style={{padding: 10, fontSize: 42}}>
+            {text
+              .split(' ')
+              .map(word => word && '🍕')
+              .join(' ')}
+          </Text>
+        </View>
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+          <Button
+            onPress={() => {
+              Alert.alert('You tapped the button!');
+            }}
+            title="Press Me"
+          />
+          <Button
+            onPress={() => {
+              Alert.prompt('You tapped the button2!');
+            }}
+            title="Press Me2"
+          />
+          <TouchableHighlight
+            onPress={() => {
+              Alert.alert('You tapped the button!');
+            }}
+            underlayColor="white">
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>TouchableHighlight</Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableOpacity
+            onPress={() => {
+              Alert.alert('You tapped the button!');
+            }}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>TouchableOpacity</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableNativeFeedback
+            onPress={() => {
+              Alert.alert('You tapped the button!');
+            }}
+            background={
+              Platform.OS === 'android'
+                ? TouchableNativeFeedback.SelectableBackground()
+                : undefined
+            }>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>
+                TouchableNativeFeedback{' '}
+                {Platform.OS !== 'android' ? '(Android only)' : ''}
+              </Text>
+            </View>
+          </TouchableNativeFeedback>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              Alert.alert('You tapped the button!');
+            }}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>TouchableWithoutFeedback</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableHighlight
+            onLongPress={() => {
+              Alert.alert('You long-pressed the button!');
+            }}
+            underlayColor="white">
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Touchable with Long Press</Text>
+            </View>
+          </TouchableHighlight>
         </View>
+        <Text style={{fontSize: 96}}>Scroll me plz</Text>
+        <Text style={{fontSize: 96}}>Scroll me plz</Text>
+        <Text style={{fontSize: 96}}>Scroll me plz</Text>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    paddingTop: 60,
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  button: {
+    marginBottom: 30,
+    width: 260,
+    alignItems: 'center',
+    backgroundColor: '#2196F3',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  buttonText: {
+    textAlign: 'center',
+    padding: 20,
+    color: 'white',
   },
 });
 
