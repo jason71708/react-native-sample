@@ -28,6 +28,7 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Title from './components/Title';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -52,6 +53,7 @@ const App = () => {
         decelerationRate="fast"
         style={backgroundStyle}>
         <View style={{padding: 10}}>
+          <Title title={'native'} />
           <TextInput
             style={{height: 40}}
             placeholder="Type here to translate!"
