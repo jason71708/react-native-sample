@@ -8,9 +8,9 @@
  * @format
  */
 
-import React, {useState} from 'react';
-import {SafeAreaView, useColorScheme} from 'react-native';
-import Title from './components/Title';
+import React, { useState } from 'react';
+import { SafeAreaView, useColorScheme } from 'react-native';
+import { HelloWorld } from './components/atoms';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -25,7 +25,7 @@ const App = () => {
           }}>
           123
         </h1>
-        <Title title={'web'} />
+        <HelloWorld name={'web'} />
         <button
           style={styles.button}
           onClick={() => {
